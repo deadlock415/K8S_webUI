@@ -1,0 +1,265 @@
+ <style>
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin-left: 70px;}
+
+/* Clear floats after the columns 
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+*/
+
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+}
+
+
+/* Button */
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.create {background-color:  #008CBA;} /*Blue*/
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #4CAF50;} /* Green */
+.button4 {background-color: #4CAF50;} /* Green */
+.button5 {background-color: #4CAF50;} /* Green */
+.button6 {background-color: #4CAF50;} /* Green */
+.button7 {background-color: #FF0000;} /* Red */
+
+body {
+  background-image: url('https://i2.wp.com/background4free.com/download/blue_aqua_white_1897054974.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+img {
+  height: 228.33px;
+  width: 283.73px;
+}
+
+h1 {
+  font-weight: bold;
+  
+  font-size=40px;
+  text-shadow: 2px 2px 5px red;
+  
+}
+div {
+  background: rgba(0, 0, 128, 0.1);
+}
+</style>  
+
+
+
+<body>
+<center>
+
+	<img src="k8slogo.jpg" alt="k8slogo" >
+	<br/><br/>
+[root@localhost ~]#<input id = "input" size="50"/> 
+<button id="b" type="button" onclick="lw()"> RUN </button>
+<br/><br/><br/>
+
+<button  class="button button1" id="button1" onclick="button(command='kubectl get deploy');">SHOWS DEPLOYS</button>
+
+<button  class="button button2" id="button2" onclick="button(command='kubectl get pods');"> SHOWS PODS</button>
+
+<button  class="button button4" id="button4" onclick="button(command='kubectl -h');"> HELP</button>
+
+<button  class="button button5" id="button5" onclick="button(command='kubectl config');"> CONFIG </button>
+
+<button  class="button button6" id="button6" onclick="button(command='kubectl cluster-info');">CLUSTER INFO</button>
+
+</br></br>
+
+<button class="button button7"  id="button7" onclick="button(command='kubectl delete --all deploy,pods');">DELETE ALL RESOURSES</button>
+
+<br/><br/><br/>
+
+
+
+<div class='row'>
+	<div class='column'>	
+	<div class="card">
+  <h1>Create Pods</h1>
+  <p>Enter the Pod Name:</p>
+  <p><input id="podn1"/></p>
+  <p>Enter the Image Name:</p>
+  <p> <input id="podi"/></p>
+  <p><button class="button create" id='podbtn' onclick="pod()">Create</button></p>
+</div>
+</div>
+<div class='column'>
+<div class="card">
+  <h1>Create Deploy</h1>
+  <p>Enter the Deploy Name:</p>
+  <p><input id="deployn1"/></p>
+  <p>Enter the Image Name:</p>
+  <p> <input id="deployi"/></p>
+  <p><button class="button create"  id='deploybtn' onclick="deploy()">Create</button></p>
+</div>
+</div>
+<div class='column'>
+  <div class="card">
+    <h1>Input Port</h1>
+    <p>Enter the Deploy Name:</p>
+    <p><input id="deployn2"/></p>
+    <p>Enter Port:</p>
+    <p> <input id="deployp"/></p>
+    <p><button class="button create"  id='inport' onclick="inpport()">Expose</button></p>
+  </div>
+  </div>
+</div>
+
+
+<div class='row'>
+  <div class='column'>
+    <div class="card">
+      <h1>Scale Replicas</h1>
+      <p>Enter the Deploy Name:</p>
+      <p><input id="deployn3"/></p>
+      <p>Number of Replicas:</p>
+      <p> <input id="rep"/></p>
+      <p><button class="button create"  id='repicas' onclick="replicas()">Scale</button></p>
+    </div>
+    </div> 
+    <div class='column'>	
+    <div class="card">
+      <h1>Delete Pods</h1>
+      <p>Enter the Pod Name:</p>
+      <p><input id="podn2"/></p>
+      <p><button class="button button7"  id='deletpod' onclick="delpod()">Delete</button></p>
+    </div>
+    </div>
+  <div class='column'>
+  <div class="card">
+    <h1>Delete Deploy</h1>
+    <p>Enter the Deploy Name:</p>
+    <p><input id="deployn4"/></p>
+    <p><button  class="button button7"  id='deletdep' onclick="deldep()">Delete</button></p>
+  </div>
+  </div>
+</div>
+
+</center>
+
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+
+<pre>
+<h1>Output:</h1>
+<h2><div id= "d1">Output is show here</div></h2>
+</pre>
+
+<script>
+
+function lw() {
+var i = document.getElementById("input").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=" + i, false);
+xhr.send();  
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+function button(command) {
+var i =command ;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=" + i, false);
+xhr.send();  
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Function of Pod */
+function pod(){
+var podn=document.getElementById("podn1").value;
+var podi=document.getElementById("podi").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+run " + podn + " --image=" + podi, false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Function of Deploy */
+function deploy(){
+var di=document.getElementById("deployi").value;
+var dn=document.getElementById("deployn1").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+create+deploy " + dn + " --image=" + di, false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Function of Deploy with Port */
+function inpport(){
+var dn=document.getElementById("deployn2").value;
+var pn=document.getElementById("deployp").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+expose+deploy " + dn + " --port=" + pn, false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Scale Deploy */
+function replicas(){
+var rn=document.getElementById("rep").value;
+var dn=document.getElementById("deployn3").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+scale+deploy " + dn + " --replicas=" + rn, false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Delete Deploy */
+function deldep(){
+
+var dn=document.getElementById("deployn4").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+delete+deploy " + dn , false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+/* Delete Pods */
+function delpod(){
+
+var pn=document.getElementById("podn2").value;
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "http://192.168.100.190/cgi-bin/arpit.py?q=kubectl+delete+pods " + pn, false);
+xhr.send();
+var output = xhr.responseText;
+document.getElementById("d1").innerHTML = output;
+}
+
+
+</script>
+</body>
+
